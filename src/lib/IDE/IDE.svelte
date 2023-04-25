@@ -26,10 +26,6 @@
                 if (label === 'typescript' || label === 'javascript') {
                     return new tsWorker();
                 }
-                if (label === 'python'){
-                    return new pythonWorker();
-                }
-
                 return new editorWorker();
             }
         };
