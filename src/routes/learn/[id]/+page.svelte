@@ -2,6 +2,7 @@
 	import ProblemHeader from '$lib/Header/ProblemHeader.svelte';
 	import Ide from '$lib/IDE/IDE.svelte';
 	import Button from '$lib/Shared/Button.svelte';
+	import Tabs from '$lib/Shared/Tabs.svelte';
 </script>
 
 <ProblemHeader />
@@ -39,10 +40,7 @@
         <Ide />
 		<div class="editorFooter">
 			<div class="console">
-				<div class="tabs">
-					<p class="tab">Test Cases</p>
-					<p class="tab">Results</p>
-				</div>
+				<Tabs />
 			</div>
 			<div class="controls">
 				<div class="openConsole">
@@ -124,11 +122,6 @@
 		gap: 20px;
 	}
 
-	.tabs {
-		width: 100%;
-		display: flex;
-		font-size: 0.9rem;
-		font-weight: 500;
-	}
+
 
 </style>

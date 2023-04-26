@@ -34,8 +34,12 @@
         editor = Monaco.editor.create(divEl, {
             value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
             language: 'javascript',
+            "semanticHighlighting.enabled": true,
+            minimap: {
+                enabled: false
+            },
+            automaticLayout: true,
         });
-
         return () => {
             editor.dispose();
         };
