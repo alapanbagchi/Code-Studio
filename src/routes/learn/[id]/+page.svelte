@@ -1,6 +1,5 @@
 <script lang="ts">
 	import TestCases from '$lib/Console/TestCases.svelte';
-	import ProblemHeader from '$lib/Header/ProblemHeader.svelte';
 	import { Pane, Splitpanes } from 'svelte-splitpanes';
 	import Ide from '$lib/IDE/IDE.svelte';
 	import Button from '$lib/Shared/Button.svelte';
@@ -8,52 +7,29 @@
 	import Output from '$lib/Console/Output.svelte';
 	import IoBlock from '$lib/IOBlock/IOBlock.svelte';
 	import Dropdown from '$lib/Shared/Dropdown.svelte';
+	import starterFiles from '../../../utils/starterFiles';
+	import { python } from '@codemirror/lang-python';
+	import { cpp } from '@codemirror/lang-cpp';
+	import { java } from '@codemirror/lang-java';
+	import problems from '../../../utils/demo';
 	let currentConsoleTab = 'Test Cases';
+	let currentLanguage = 'c';
 	let showConsole = true;
+	let currentLanguageConfig = cpp();
 
-	const testCases: TestCase[] = [
-		{
-			input: [
-				{
-					variableName: 'nums',
-					value: [2, 7, 11, 15]
-				},
-				{
-					variableName: 'target',
-					value: 9
-				}
-			],
-			output: [0, 1],
-			explanation: 'Because nums[0] + nums[1] == 9, we return [0, 1]'
-		},
-		{
-			input: [
-				{
-					variableName: 'nums',
-					value: [3, 2, 4]
-				},
-				{
-					variableName: 'target',
-					value: 6
-				}
-			],
-			output: [1, 2],
-			explanation: 'Because nums[1] + nums[2] == 6, we return [1, 2]'
-		},
-		{
-			input: [
-				{
-					variableName: 'nums',
-					value: [3, 3]
-				},
-				{
-					variableName: 'target',
-					value: 6
-				}
-			],
-			output: [0, 1]
-		}
-	];
+	$: if (currentLanguage === 'python') {
+		currentLanguageConfig = python();
+	} else if (currentLanguage === 'java') {
+		currentLanguageConfig = java();
+	} else {
+		currentLanguageConfig = cpp();
+	}
+
+	const changeHandler = (e: any) => {
+		console.log(e.detail);
+	};
+
+	$: console.log(currentLanguage);
 </script>
 
 <Splitpanes class="container">
@@ -67,8 +43,8 @@
 				order.
 			</p>
 		</div>
-		{#each testCases as testCase, index}
-			<IoBlock index={index + 1} testCase={testCases[index]} />
+		{#each problems[0].test_cases as testCase, index}
+			<IoBlock index={index + 1} testCase={problems[0].test_cases[index]} />
 		{/each}
 	</Pane>
 	<Pane size={60} minSize={40} maxSize={60} class="editor">
@@ -76,18 +52,38 @@
 			<Pane size={showConsole ? 50 : 100} maxSize={100} minSize={20} class="ide">
 				<li class="problemControls">
 					<div>
-						<Dropdown />
+						<Dropdown
+							options={[
+								{
+									name: 'C',
+									value: 'c'
+								},
+								{
+									name: 'C++',
+									value: 'cpp'
+								},
+								{
+									name: 'Python',
+									value: 'python'
+								},
+								{
+									name: 'Java',
+									value: 'java'
+								}
+							]}
+							on:change={(e) => {
+								console.log(e);
+								currentLanguage = e.detail.value;
+							}}
+						/>
 					</div>
-					<div class="links">
-						<a href="#" class="control">
-							<p>Previous Problem</p>
-						</a>
-						<a href="#" class="control">
-							<p>Next Problem</p>
-						</a>
-					</div>
+					<div class="links" />
 				</li>
-				<Ide />
+				<Ide
+					on:change={changeHandler}
+					value={starterFiles.get(currentLanguage)}
+					lang={currentLanguageConfig}
+				/>
 			</Pane>
 			{#if showConsole}
 				<Pane size={showConsole ? 50 : 0} maxSize={80} minSize={20} class="editorFooter">
@@ -99,7 +95,7 @@
 							}}
 						/>
 						{#if currentConsoleTab === 'Test Cases'}
-							<TestCases {testCases} />
+							<TestCases testCases={problems[0].test_cases} />
 						{:else}
 							<Output />
 						{/if}

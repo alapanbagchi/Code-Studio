@@ -21,13 +21,13 @@
 		display: flex;
 		border-bottom: 1px solid var(--gray1);
         gap: 30px;
-        padding: 10px 10px 0 0;
+        padding: 5px 5px 0 0;
 	}
     .tab{
         cursor: pointer;
         outline: none;
         border: none;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
 		font-weight: 500;
         background-color: transparent;
 		border: 2px solid transparent;
@@ -41,7 +41,7 @@
     }
 
     .btngroup .tab{
-        border: 2px solid var(--btn_group_tab_border);
+        background-color: var(--btn_group_tab_background);
         padding-bottom: unset;
         padding: 10px;
         border-radius: 7px;
@@ -49,6 +49,7 @@
     .btngroup .tab.active{
         color: var(--btn_group_tab_active);
         border: 2px solid var(--btn_group_tab_active);
+        background-color: var(--btn_group_tab_active_background);
     }
     .btngroup{
         gap: 10px;

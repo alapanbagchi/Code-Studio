@@ -35,8 +35,11 @@
     --input_focused: #0070f3;
     --input_focused_boxShadow: 0 0 5px 3px #a6cfff;
 
+    --btn_group_tab_background: #f3f3f3;
     --btn_group_tab_border: #eaeaea;
     --btn_group_tab_active: #0070f3;
+    --btn_group_tab_active_background: #FFFFFF;
+
 
     --ioblock_background: #000a2008;
 }

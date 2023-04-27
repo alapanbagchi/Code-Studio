@@ -1,26 +1,14 @@
 <script lang="ts">
-	let options: any = [
-		{
-			name: 'C',
-			value: 'c'
-		},
-		{
-			name: 'C++',
-			value: 'cpp'
-		},
-		{
-			name: 'Python',
-			value: 'python'
-		},
-		{
-			name: 'Java',
-			value: 'java'
-		}
-	];
+	import { createEventDispatcher } from "svelte";
+    const dispatch = createEventDispatcher();
+	export let options: {name: string, value: string}[]
 	let current = options[0];
 	let showDropdown = false;
-    // Find the max width of the options in the dropdown
     let maxWidth = 0;
+    const handleClick = (option: {name: string, value: string}) => {
+        current = option
+        dispatch('change', current);
+    }
     options.forEach((option: any) => {
         const width = option.name.length * 8;
         if (width > maxWidth) {
@@ -43,8 +31,8 @@
 		<div class="dropdown">
 			{#each options as option}
 				<p
-					on:click={() => (current = option)}
-					on:keydown={() => (current = { option })}
+					on:click={()=>handleClick(option)}
+					on:keydown={()=>handleClick(option)}
 					class="option"
 				>
 					{option.name}
@@ -70,6 +58,10 @@
         justify-content: space-between;
         align-items: center;
 	}
+    .current:hover{
+        background-color: var(--gray1);
+        border: 1px solid var(--input_border);
+    }
     .dropdown_icon{
         font-size: 1.2rem;
     }

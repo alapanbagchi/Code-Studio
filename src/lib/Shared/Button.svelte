@@ -1,8 +1,4 @@
 <script lang="ts">
-	interface Props {
-		type: "primary" | "secondary" | "btngroup" | "icon";
-		disabled?: boolean;
-	}
 	export let type: "primary" | "secondary" | "icon" | "btngroup" = "primary";
 	export let disabled: boolean = false;
 	export let onClick: () => void = () => {};
