@@ -1,15 +1,14 @@
 <script lang="ts">
 	interface Props {
-		type: "primary" | "secondary" | "icon";
+		type: "primary" | "secondary" | "btngroup" | "icon";
 		disabled?: boolean;
 	}
-	interface ButtonProps extends HTMLButtonElement {}
-	// Declare the component props
-	export let type: "primary" | "secondary" | "icon" = "primary";
+	export let type: "primary" | "secondary" | "icon" | "btngroup" = "primary";
 	export let disabled: boolean = false;
+	export let onClick: () => void = () => {};
 </script>
 
-<button {disabled} class='{type}'>
+<button on:click={onClick} {disabled} class='{type}'>
 	<slot />
 </button>
 
@@ -70,5 +69,8 @@
 		color: var(--button_secondary_text);
 		border: 1px solid var(--button_secondary_border_hover);
 		transition: all 0.3s ease;
+	}
+	.btngroup{
+		border: 1px solid var(--btngroup_border);
 	}
 </style>

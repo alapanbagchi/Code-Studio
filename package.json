@@ -31,7 +31,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"codemirror": "^6.0.1",
-		"monaco-editor": "^0.37.1"
+		"monaco-editor": "^0.37.1",
+		"svelte-splitpanes": "^0.7.13"
 	}
 }

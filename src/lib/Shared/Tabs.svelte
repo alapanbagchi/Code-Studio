@@ -1,10 +1,18 @@
 <script lang="ts">
-    let active: string
+    export let tabs: string[]
+    export let onClick: (tab: string) => void
+    export let style: 'standard' | 'btngroup' = 'standard'
+    $: active = tabs[0]
+    const handleTabClick = (tab: string) => {
+        active = tab
+        onClick(tab)
+    }
 </script>
 
-<div class="tabs">
-	<button on:click={()=>active = 'Test Cases'} class="tab {active == 'Test Cases' ? 'active' : ''}">Test Cases</button>
-	<button on:click={()=>active = 'Results'} class="tab {active == 'Results' ? 'active' : ''}">Results</button>
+<div class="tabs {style}">
+    {#each tabs as tab}
+        <button on:click={()=>handleTabClick(tab)} class="tab {active == tab ? 'active' : ''}">{tab}</button>
+    {/each}
 </div>
 
 <style>
@@ -13,6 +21,7 @@
 		display: flex;
 		border-bottom: 1px solid var(--gray1);
         gap: 30px;
+        padding: 10px 10px 0 0;
 	}
     .tab{
         cursor: pointer;
@@ -21,7 +30,7 @@
         font-size: 0.9rem;
 		font-weight: 500;
         background-color: transparent;
-		border-bottom: 2px solid transparent;
+		border: 2px solid transparent;
         padding-bottom: 10px;
         transition: all 0.3s ease;
     }
@@ -29,5 +38,20 @@
         color: var(--navbar_link_active);
         border-bottom: 2px solid var(--navbar_link_active);
         transition: all 0.3s ease;
+    }
+
+    .btngroup .tab{
+        border: 2px solid var(--btn_group_tab_border);
+        padding-bottom: unset;
+        padding: 10px;
+        border-radius: 7px;
+    }
+    .btngroup .tab.active{
+        color: var(--btn_group_tab_active);
+        border: 2px solid var(--btn_group_tab_active);
+    }
+    .btngroup{
+        gap: 10px;
+        border-bottom: none;
     }
 </style>

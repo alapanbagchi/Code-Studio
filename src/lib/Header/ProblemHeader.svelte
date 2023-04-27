@@ -2,7 +2,7 @@
 	<nav class="nav back">
 		<ul class="navlist">
 			<li class="w_50">
-				<h1 class="problemTitle">Good Turn</h1>
+				<h1 class="problemTitle">Two Sum</h1>
 			</li>
 			<li class="controls">
 				<a href="#" class="control">
@@ -46,40 +46,5 @@
 		align-items: center;
 		gap: 30px;
 	}
-	.active {
-		color: var(--navbar_link_active) !important;
-	}
-	.problemTitle {
-		font-weight: 500;
-		font-size: 1.2rem;
-	}
-	.successRate {
-		font-weight: 400;
-		font-size: 0.8rem;
-		margin-left: 10px;
-		margin-top: 2px;
-	}
-	.controls {
-		display: flex;
-		width: fit-content;
-		margin-left: auto;
-		gap: 20px;
-	}
-
-	.control {
-		display: flex;
-		align-items: center;
-		gap: 10px;
-		padding: 5px;
-		border-radius: 5px;
-		cursor: pointer;
-		transition: all 0.2s ease-in-out;
-		font-size: 14px;
-	}
-	.control:hover {
-		color: var(--navbar_link_active);
-	}
-	.w_50 {
-		width: 50%;
-	}
+	
 </style>

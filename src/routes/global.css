@@ -24,6 +24,21 @@
 
     --sampleio_table_background: #F6F9FC;
     --sampleio_table_border: 1px solid #D2D9E7;
+
+    --splitter_hover: #9ccaff;
+    --tab_border: #eaeaea;
+
+    --text_primary: #000000;
+    --text_secondary: #666666;
+
+    --input_border: #EAEAEA;
+    --input_focused: #0070f3;
+    --input_focused_boxShadow: 0 0 5px 3px #a6cfff;
+
+    --btn_group_tab_border: #eaeaea;
+    --btn_group_tab_active: #0070f3;
+
+    --ioblock_background: #000a2008;
 }
 
 * {
@@ -52,3 +67,4 @@ a {
     width: 100%;
     padding: 0 30px;
 }
+
