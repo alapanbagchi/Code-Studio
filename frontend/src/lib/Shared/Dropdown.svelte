@@ -1,38 +1,50 @@
 <script lang="ts">
-	import { createEventDispatcher } from "svelte";
-    const dispatch = createEventDispatcher();
-	export let options: {name: string, value: string}[]
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
+	export let options: { name: string; value: string }[];
 	let current = options[0];
 	let showDropdown = false;
-    let maxWidth = 0;
-    const handleClick = (option: {name: string, value: string}) => {
-        current = option
-        dispatch('change', current);
-    }
-    options.forEach((option: any) => {
-        const width = option.name.length * 8;
-        if (width > maxWidth) {
-            maxWidth = width;
-        }
-    });
+	let maxWidth = 0;
+	export let label: string = '';
+	export let required: boolean = false;
+	const handleClick = (option: { name: string; value: string }) => {
+		current = option;
+		dispatch('change', current);
+	};
+	options.forEach((option: any) => {
+		const width = option.name.length * 8;
+		if (width > maxWidth) {
+			maxWidth = width;
+		}
+	});
 </script>
 
 <div
-	on:click={() => (showDropdown = !showDropdown)}
-	on:keydown={() => (showDropdown = !showDropdown)}
-	class="container"
-    style:min-width={maxWidth + 50 + 'px'}
+	on:click={() => (options.length > 1 ? (showDropdown = !showDropdown) : undefined)}
+	on:keydown={() => (options.length > 1 ? (showDropdown = !showDropdown) : undefined)}
+	class="container {options.length > 1 ? '' : 'disabled'}"
+	style:min-width={options.length > 1 ? maxWidth + 50 + 'px' : 'unset'}
 >
+	{#if label}
+		<div class="label">
+			{label}
+			{#if required}
+				<span class="required">*</span>
+			{/if}
+		</div>
+	{/if}
 	<div class="current">
 		<p>{current.name}</p>
-		<span class="material-symbols-outlined dropdown_icon"> expand_more </span>
+		{#if options.length > 1}
+			<span class="material-symbols-outlined dropdown_icon"> expand_more </span>
+		{/if}
 	</div>
 	{#if showDropdown}
 		<div class="dropdown">
 			{#each options as option}
 				<p
-					on:click={()=>handleClick(option)}
-					on:keydown={()=>handleClick(option)}
+					on:click={() => handleClick(option)}
+					on:keydown={() => handleClick(option)}
 					class="option"
 				>
 					{option.name}
@@ -48,39 +60,57 @@
 		height: fit-content;
 		font-size: 0.9rem;
 		position: relative;
+		color: var(--text-secondary);
+	}
+	.disabled {
+		opacity: 0.8;
+		cursor: not-allowed;
 	}
 	.current {
 		cursor: pointer;
-		border: 1px solid var(--input_border);
-		padding: 5px 10px;
+		padding: 10px 16px;
 		border-radius: 7px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		background-color: var(--input-background);
 	}
-    .current:hover{
-        background-color: var(--gray1);
-        border: 1px solid var(--input_border);
-    }
-    .dropdown_icon{
-        font-size: 1.2rem;
-    }
+	.dropdown_icon {
+		font-size: 1.2rem;
+	}
 	.dropdown {
-		padding: 2px 2px;
-		border: 1px solid var(--input_border);
+		padding: 10px;
+		border: 1px solid var(--input-border);
 		border-radius: 7px;
 		margin-top: 10px;
 		position: absolute;
 		z-index: 9999;
-		background-color: #ffffff;
+		background-color: var(--surface);
+		border: var(--border);
 		width: 100%;
 	}
 	.option {
-		padding: 5px 5px;
+		padding: 10px 16px;
 		border-radius: 7px;
 		cursor: pointer;
 	}
 	.option:hover {
-		background-color: var(--gray1);
+		background-color: var(--onSurface);
+	}
+	.label {
+		width: fit-content;
+		gap: 3px;
+		font-size: 0.84rem;
+		font-weight: 600;
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 10px;
+		color: var(--text-secondary);
+	}
+	.label span:not(.required) {
+		color: var(--text-secondary);
+	}
+	.required {
+		color: var(--error);
 	}
 </style>

@@ -19,9 +19,7 @@
 	.tabs {
 		width: 100%;
 		display: flex;
-		border-bottom: 1px solid var(--gray1);
         gap: 30px;
-        padding: 5px 5px 0 0;
 	}
     .tab{
         cursor: pointer;
@@ -30,13 +28,14 @@
         font-size: 0.9rem;
 		font-weight: 500;
         background-color: transparent;
-		border: 2px solid transparent;
-        padding-bottom: 10px;
+		border: 3px solid transparent;
+        padding-bottom: 15px;
         transition: all 0.3s ease;
+        color: var(--text-secondary);
     }
     .active{
-        color: var(--navbar_link_active);
-        border-bottom: 2px solid var(--navbar_link_active);
+        color: var(--primary);
+        border-bottom: 3px solid var(--primary);
         transition: all 0.3s ease;
     }
 

@@ -7,4 +7,5 @@ export const userRegistration = writable({
     password: "",
     username: "",
     confirmPassword: "",
+    timeToWaitForNextOTP: 0,
 });

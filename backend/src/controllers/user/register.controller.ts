@@ -2,11 +2,13 @@ import userModel from "../../models/user.model"
 import { Request, Response } from "express"
 import bcrypt from 'bcryptjs'
 
-export const registerController = async (req: Request, res: Response) => {
+export const userRegistrationController = async (req: Request, res: Response) => {
     try {
         const { fullName, username, email, password } = req.body
+        console.log(req.body)
         // > Find the user with the same email or username and return an error if found
         const user = await userModel.findOne({ $or: [{ email: email }, { username: username }] })
+        console.log(user)
         if (user) return res.status(400).json({ type: "ERROR", message: "User already exists" })
         // > Hash the password
         const salt = await bcrypt.genSalt(10)
@@ -17,7 +19,7 @@ export const registerController = async (req: Request, res: Response) => {
             username: username,
             email: email,
             password: hashedPassword,
-            sys_permissions: [],
+            isAdmin: false,
             email_verified: false,
             pfp: ""
         })

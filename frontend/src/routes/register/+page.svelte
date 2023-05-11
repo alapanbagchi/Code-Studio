@@ -1,10 +1,9 @@
 <script>
-	import Register from '$lib/Onboarding/Register.svelte';
-	import Verify from '$lib/Onboarding/Verify.svelte';
+	import Register from '$lib/Forms/Register.svelte';
+	import Verify from '$lib/Forms/Verify.svelte';
 	import Button from '$lib/Shared/Button.svelte';
 	import Input from '$lib/Shared/Input.svelte';
 	import { userRegistration } from '$lib/stores/userRegistration';
-	let formStep = 0;
 	const steps = [
 		{
 			title: 'Create an account',
@@ -39,7 +38,7 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		margin-top: -80px;
+		color: var(--text-primary);
 	}
 	h1 {
 		font-size: 1.4rem;
@@ -49,12 +48,13 @@
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
-		margin-bottom: 20px;
-		margin-top: 10px;
+		margin-bottom: 30px;
+		margin-top: -80px;
 	}
 	.pagedetails p {
 		font-size: var(--font_small);
 		font-weight: 400;
 		line-height: 22px;
+		color: var(--text-secondary);
 	}
 </style>

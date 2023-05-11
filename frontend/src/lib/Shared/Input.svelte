@@ -92,19 +92,21 @@
 		display: flex;
 		justify-content: space-between;
 		margin-bottom: 10px;
+		color: var(--text-secondary);
 	}
 	.label span:not(.required) {
-		color: var(--text_secondary);
+		color: var(--text-secondary);
 	}
 	.inputfield {
 		display: flex;
 		padding: 10px 16px;
-		border: 1px solid var(--input_border);
+		border: 1px solid transparent;
 		border-radius: 7px;
 		align-items: center;
 		justify-content: center;
-		background-color: white;
+		background-color: transparent;
 		transition: all 0.2s ease-in-out;
+		background: var(--input-background);
 	}
 	.inputerror {
 		border: 1px solid var(--error);
@@ -116,8 +118,8 @@
         border: 1px solid var(--error);
     }
     .focused.inputerror{
-        border: 1px solid var(--input_error);
-        box-shadow: var(--input_error_boxShadow);
+        border: 1px solid var(--input-error);
+        box-shadow: var(--input-error-boxShadow);
     }
 	input {
 		flex: 1;
@@ -126,13 +128,14 @@
 		font-size: 0.9rem;
 		background-color: transparent;
 		width: 100%;
+		color: var(--text-primary);
 	}
 	.hovered {
-		border: 1px solid var(--input_hover_border);
+		border: 1px solid var(--primary);
 	}
 	.focused {
-		border: 1px solid var(--input_focused);
-		box-shadow: var(--input_focused_boxShadow);
+		border: 1px solid var(--primary);
+		box-shadow: var(--primary-shadow);
 	}
 	.error {
 		color: var(--error);

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/Shared/Button.svelte';
+	import ButtonGroup from '$lib/Shared/ButtonGroup.svelte';
 	import Input from '$lib/Shared/Input.svelte';
 	import Tabs from '$lib/Shared/Tabs.svelte';
 	export let testCases: {
@@ -15,13 +16,15 @@
 
 <div class="container">
 	<div class="tabs">
-		<Tabs
-			variant="btngroup"
+		<ButtonGroup
 			tabs={testCases.map((testCase, index) => {
-				return `Test Case ${index + 1}`;
+				return {
+					label: `Test Case ${index + 1}`,
+					status: 'default',
+				}
 			})}
 			onClick={(tab) => {
-				currentTab = tab;
+				currentTab = tab.label;
 			}}
 		/>
 	</div>
@@ -31,7 +34,7 @@
 				<Input
 					label={input.variableName}
 					type="text"
-					value={JSON.stringify(input.value)}
+					value={input.value}
 					placeholder="Variable Name"
 				/>
 			{/each}

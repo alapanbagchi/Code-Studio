@@ -9,6 +9,7 @@ import http from 'http'
 import fs from 'fs'
 import https from 'https'
 import dotenv from 'dotenv'
+require('./utils/passport')
 
 
 dotenv.config()
@@ -19,17 +20,16 @@ const PORT = process.env.PORT || 8000
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: process.env.CLIENT_URL.split(','),
     credentials: true
 }))
-// app.use(passport.authenticate('session'))
+
 // Redis client setup
 const redisClient = createClient({
     legacyMode: true,
     url: process.env.REDIS_URI
 })
 app.use(cookieParser())
-
 if (!process.env.SESSION_SECRET) throw new Error('No session secret provided')
 app.use(session({
     proxy: true,
@@ -41,6 +41,7 @@ app.use(session({
         client: redisClient
     })
 }))
+app.use(passport.authenticate('session'))
 
 app.get('/', (req, res) => {
     res.status(200).json({ type: "SUCCESS", message: "Welcome to code studio backend" })

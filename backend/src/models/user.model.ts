@@ -23,13 +23,9 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    sys_permissions: {
-        type: [String],
-        required: true,
-        default: []
-    },
-    email_verified: {
+    isAdmin: {
         type: Boolean,
+        required: true,
         default: false
     }
 }, { timestamps: true })
@@ -40,8 +36,7 @@ export interface IUser extends Document {
     email: string,
     username: string,
     password: string,
-    email_verified: boolean,
-    sys_permissions: string[],
+    isAdmin: boolean,
 }
 
 export default model<IUser>('User', UserSchema)

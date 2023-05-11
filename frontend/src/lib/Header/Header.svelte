@@ -1,15 +1,19 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import Button from '$lib/Shared/Button.svelte';
+	import { user } from '$lib/stores/userStore';
 </script>
 
 <header class="header">
 	<nav class="nav">
 		<ul class="navlist">
-			<li class="logo">
-				<img width="40px" height="40px" src="/icons/logo.svg" alt="Code Studio Logo" />
-				CODE_STUDIO
-			</li>
+			<a href={$page.url.origin}>
+				<li class="logo">
+					<img width="40px" height="40px" src="/icons/logo.svg" alt="Code Studio Logo" />
+					CODE_STUDIO
+				</li>
+			</a>
+
 			<ul class="links">
 				<li>
 					<a href="/practice">Practice</a>
@@ -17,14 +21,27 @@
 				<li>
 					<a href="/test">Test</a>
 				</li>
+				<li>
+					<a href="/admin">Admin</a>
+				</li>
 			</ul>
 			<ul class="user">
-				<a href="{$page.url.origin}/login">
-					<Button variant="secondary">Log In</Button>
-				</a>
-				<a href="{$page.url.origin}/register">
-					<Button variant="primary">Sign Up</Button>
-				</a>
+				{#if $user.isLoggedIn}
+					<div class="pfp">
+						{#if $user.pfp}
+							<img src={$user.pfp} alt="" />
+						{:else}
+							{$user.fullName[0]}
+						{/if}
+					</div>
+				{:else}
+					<a href="{$page.url.origin}/login">
+						<Button variant="secondary">Log In</Button>
+					</a>
+					<a href="{$page.url.origin}/register">
+						<Button variant="primary">Sign Up</Button>
+					</a>
+				{/if}
 			</ul>
 		</ul>
 	</nav>
@@ -37,14 +54,10 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		padding: 0 30px;
 		margin-left: auto;
 		margin-right: auto;
 		position: sticky;
 		top: 0;
-		backdrop-filter: saturate(180%) blur(5px);
-		background: hsla(0, 0%, 100%, 0.8);
-		border-bottom: 1px solid var(--navbar_border);
 	}
 	.nav {
 		width: 100%;
@@ -61,6 +74,7 @@
 		align-items: center;
 		gap: 10px;
 		font-weight: 600;
+		color: var(--text-primary);
 	}
 	.links {
 		display: flex;
@@ -68,14 +82,13 @@
 		margin-left: 44px;
 	}
 	.links li {
-		font-weight: 500;
 		font-size: 14px;
-		color: var(--navbar_link);
+		color: var(--text-secondary);
 		transition: all 0.3s ease;
 		cursor: pointer;
 	}
 	.links li:hover {
-		color: var(--navbar_link_hover);
+		color: var(--text-primary);
 		transition: all 0.3s ease;
 	}
 	.user {
@@ -85,5 +98,27 @@
 	}
 	.active {
 		color: var(--navbar_link_active) !important;
+	}
+
+	.pfp {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		background: var(--primary);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-weight: 600;
+		font-size: 16px;
+		color: var(--background);
+		border: 1px solid transparent;
+		transition: all 0.3s ease;
+	}
+	.user {
+		cursor: pointer;
+	}
+	.user:hover .pfp {
+		border: 1px solid black;
+		transition: all 0.3s ease;
 	}
 </style>

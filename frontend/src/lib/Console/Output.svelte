@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ButtonGroup from '$lib/Shared/ButtonGroup.svelte';
 	import Tabs from '$lib/Shared/Tabs.svelte';
 	import { pythonErrorParser } from '../../utils/errorParser/python.errorparser';
 	export let codeExecutionResult: any = undefined;
@@ -7,14 +8,13 @@
 	let outputTabIndex = 0;
 	$: if (codeExecutionResult) {
 		codeExecutionResult.forEach((result: any) => {
-			if (result.executionError) {
-				isError = result.output;
+			if (result.exception) {
+				executionError = result.exception
 			}
 		});
-		if (isError) {
-			executionError = pythonErrorParser(isError);
-		}
 	}
+
+	$: console.log(codeExecutionResult);
 </script>
 
 <div class="container">
@@ -24,14 +24,18 @@
 				<p class="outputType">{executionError.type}</p>
 				<div class="outputMessage">
 					<pre>{@html executionError.message}</pre>
+					<pre>{@html executionError.traceback}</pre>
+
 				</div>
 			{:else}
 				{#if codeExecutionResult.length > 1}
 					<div class="tabs">
-						<Tabs
-							variant="btngroup"
+						<ButtonGroup
 							tabs={codeExecutionResult.map((result, index) => {
-								return `Case ${index + 1}`;
+								return {
+									label: `Test Case ${index + 1}`,
+									status: result.correct ? 'success' : 'error',
+								}
 							})}
 							onClick={(tab, index) => {
 								outputTabIndex = index;
@@ -44,17 +48,17 @@
 						{#each result.input as input, index}
 							<p class="title">{input.variableName}</p>
 							<div class="value">
-								<p>{JSON.stringify(input.value)}</p>
+								<p>{input.value}</p>
 							</div>
 						{/each}
 						<p class="title">Output</p>
-						<div class="value {result.correct ? 'correct' : 'wrong'}">
-							<pre>{JSON.stringify(result.output)}</pre>
+						<div class="value {result.passed ? 'correct' : 'wrong'}">
+							<pre>{result.output}</pre>
 						</div>
 
 						<p class="title">Expected Output</p>
 						<div class="value">
-							<pre>{JSON.stringify(result.expectedOutput)}</pre>
+							<pre>{result.expectedOutput}</pre>
 						</div>
 					{/if}
 				{/each}
@@ -96,8 +100,7 @@
 		font-size: 0.9rem;
 		font-weight: 400;
 		color: var(--error);
-		background-color: var(--error_background);
-		padding: 20px;
+		background-color: var(--error-background);
 		border-radius: 7px;
 	}
 	.defaultOutput {
@@ -118,17 +121,18 @@
 	.value{
 		font-size: 0.9rem;
 		font-weight: 400;
-		background-color: var(--io_output_block_background);
-		padding: 20px;
+		background-color: var(--input-background);
+		padding: 15px 16px;
 		border-radius: 7px;
 		margin-bottom: 20px;
+		color: var(--text_primary);
 	}
 	.correct{
-		background-color: var(--io_output_block_success_background);
-		color: var(--io_output_block_success);
+		background-color: var(--success-background);
+		color: var(--success);
 	}
 	.wrong{
 		color: var(--error);
-		background-color: var(--error_background);
+		background-color: var(--error-background);
 	}
 </style>

@@ -1,6 +1,6 @@
 import axios from "axios";
- 
-const baseURL = "https://localhost:8000" 
+
+const baseURL = "https://localhost:8000"
 // Create a instance of axios to use the same base url.
 const axiosAPI = axios.create({
   baseURL
@@ -21,10 +21,10 @@ const apiRequest = (method: string, url: any, request: any = {}) => {
     data: request,
     headers,
     withCredentials: true,
-  }).then((res:any) => {
+  }).then((res: any) => {
     return Promise.resolve(res.data);
   })
-    .catch((err:any) => {
+    .catch((err: any) => {
       return Promise.reject(err);
     });
 };

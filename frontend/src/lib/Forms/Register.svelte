@@ -1,19 +1,26 @@
-<script>
+<script lang="ts">
 	import Button from '$lib/Shared/Button.svelte';
 	import Input from '$lib/Shared/Input.svelte';
-
 	import { createForm } from 'svelte-forms-lib';
 	import * as yup from 'yup';
 	import API from '../../utils/API';
 	import { userRegistration } from '$lib/stores/userRegistration';
+	import { notification } from '$lib/Notifications/notifications';
+	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+	import { user } from '$lib/stores/userStore';
+
+	onMount(async () => {
+		if($user.isLoggedIn) goto('../');
+	});
 
 	const { form, handleChange, errors, touched, handleSubmit, isSubmitting } = createForm({
 		initialValues: {
-			fullName: '',
-			username: '',
-			email: '',
-			password: '',
-			confirmPassword: ''
+			fullName: 'Alapan Bagchi',
+			username: 'alapan',
+			email: 'alapanbagchi.personal@gmail.com',
+			password: 'Madv1lla1n_Dash1ng',
+			confirmPassword: 'Madv1lla1n_Dash1ng'
 		},
 		validationSchema: yup.object().shape({
 			fullName: yup.string().required('Full name is required'),
@@ -35,13 +42,23 @@
 		}),
 		onSubmit: async (values) => {
 			try {
-				await API.post('/user/send/emailverification', values);
+				const res = await API.post('/user/verify/send', {
+					email: values.email
+				});
 				$userRegistration = {
 					...$userRegistration,
 					...values
 				};
-				$userRegistration.step = 1
-			} catch (err) {}
+				$userRegistration.step = 1;
+				$userRegistration.timeToWaitForNextOTP = res.time;
+				
+			} catch (err: any) {
+				$notification = {
+					type: 'ERROR',
+					title: 'Something went wrong',
+					message: err.response.data.message
+				};
+			}
 		}
 	});
 </script>
