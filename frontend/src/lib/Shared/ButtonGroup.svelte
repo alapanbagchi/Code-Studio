@@ -48,6 +48,7 @@
 		display: flex;
 		gap: 10px;
 		align-items: center;
+		font-weight: 500;
 	}
     .status{
         width: 8px;
@@ -56,6 +57,9 @@
     }
 	.error {
 		background-color: var(--error);
+	}
+	.success{
+		background-color: var(--success);
 	}
 	.tab {
 		padding: 8px 8px;

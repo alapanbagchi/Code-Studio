@@ -27,7 +27,16 @@ const UserSchema = new Schema({
         type: Boolean,
         required: true,
         default: false
-    }
+    },
+    submissions: [{
+        _id: {
+            type: String,
+        },
+        solved: {
+            type: Boolean,
+            default: false
+        }
+    }]
 }, { timestamps: true })
 
 export interface IUser extends Document {
@@ -37,6 +46,10 @@ export interface IUser extends Document {
     username: string,
     password: string,
     isAdmin: boolean,
+    submissions: [{
+        _id: string,
+        solved: boolean
+    }]
 }
 
 export default model<IUser>('User', UserSchema)

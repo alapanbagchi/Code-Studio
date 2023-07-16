@@ -1,7 +1,7 @@
 declare global {
 	declare class TestCase {
 		input: {
-			variableName: string;
+			name: string;
 			value: any;
 		}[];
 		output: any;

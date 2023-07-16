@@ -8,6 +8,7 @@ import express from 'express'
 import { userEmailVerificationController } from '../controllers/user/useremailverification.controller';
 import { userLoginValidator } from '../validators/users/userLogin.validator';
 import { me } from '../controllers/user/me.controller';
+import { authGuard } from '../utils/authGuard';
 
 const router = express.Router()
 
@@ -52,7 +53,7 @@ router.post('/verify/send', async(req,res)=>{
 })
 
 
-router.get('/me', async(req,res) => me(req,res))
+router.get('/me', authGuard, async(req,res) => me(req,res))
 
 router.post('/emailcheck', async(req,res)=>{
     try {

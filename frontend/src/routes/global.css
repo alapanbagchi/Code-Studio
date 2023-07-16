@@ -1,37 +1,41 @@
 :root {
 
-    --background: #0D1520;
+    --background: #1C2128;
     --text-primary: #FFFFFF;
     --text-secondary: #ffffffc9;
     --text-primary-opacity: 1;
     --text-secondary-opacity: 0.8;
-    --primary: #A7B9FE;
+    --primary: #2E7CF5;
     --secondary: #FFFFFF;
     --onSecondary: var(--background);
-    --border: 1px solid #3C3F45;
-    --surface: #121927;
-    --onSurface: #212836;
-    --primary-shadow: 0 0 0px 3px #a7b8fe80;
-    --error: #EF4743;
+    --border: 1px solid #444C56;
+    --surface: #22272E;
+    --onSurface: #444C56;
+    --primary-shadow: 0 0 0px 3px #2e7ef584;
+    --error: #fe7e7c;
     --success: #2DB587;
     --success-background: #70ffd02e;
-    --error-background: #ef474351;
+    --error-background: #5039385d;
 
     --button-primary: var(--primary);
-    --button-primary-text: var(--background);
+    --button-primary-text: #FFFFFF;
     --button-primary-border: 1px solid var(--primary);
-    --button-primary-hover: var(--primary);
-    --button-primary-text-hover: var(--background);
+    --button-primary-hover: var(--surface);
+    --button-primary-text-hover: var(--text-primary);
     --button-primary-border-hover: var(--primary);
     
-    --button-secondary: transparent;
+    --button-secondary: #373E47;
     --button-secondary-text: #ffffffc3;
     --button-secondary-background: #ffffff;
     --button-secondary-background-disabled: #eaeaea;
-    --button-secondary-border: #eaeaea8c;
+    --button-secondary-border: 1px solid #464E57;
     --button-secondary-border-hover: #FFFFFF;
     --button-secondary-text-hover: var(--text-primary);
     --button-secondary-background-hover: transparent;
+
+    --button-error-text: #fe7e7c;
+    --button-error-background: var(--error-background);
+    --button-error-border: 1px solid var(--error);
 
     --navbar-link: #666;
     --navbar-link-hover: #000000;
@@ -39,12 +43,11 @@
     --navbar-border: #eaeaea;
     --tab-border: #eaeaea;
 
-    --input-background: var(--onSurface);
-    --input-border: #EAEAEA;
+    --input-background: transparent;
+    --input-border: 2px solid #444C56;
     --input-focused: #0070f3;
     --input-hover-border: #0070f3;
-    --input-focused-boxShadow: 0 0 0px 3px ;
-    --error-background: #ffd7d5;
+    --input-focused-boxShadow: 0 0 0px 3px #0071f32f;
     --input-error: #EA3D09;
     --input-error-boxShadow: 0 0 0px 3px #ff9b9b;
     --btn-group-tab-background: #f3f3f3;
@@ -74,6 +77,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Inter';
+    color: var(--text-primary);
 }
 
 ul {

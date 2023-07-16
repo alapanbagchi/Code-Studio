@@ -1,5 +1,5 @@
 import express from 'express'
-import { submissions } from '../controllers/rce/submissions'
+import { submissions } from '../controllers/problem/submissions'
 
 const router = express.Router()
 

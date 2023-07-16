@@ -1,13 +1,13 @@
 import { Request, Response } from "express"
 import userModel from "../../models/user.model"
 import bcrypt from 'bcryptjs'
-
+import axios from "axios"
 export const userLoginController = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body
 
         // > Check if user is already logged in
-        if (req.isAuthenticated()) return res.status(200).json({ type: "SUCCESS", message: "You are already logged in to Joridiro" })
+        // if (req.isAuthenticated()) return res.status(200).json({ type: "SUCCESS", message: "You are already logged in to Joridiro" })
 
         // > Check if user exists
         const user = await userModel.findOne({ email })
@@ -21,10 +21,9 @@ export const userLoginController = async (req: Request, res: Response) => {
         const userObject = {
             _id: user._id
         }
-        // > If there is a session for the user, return the session
-        req.login(userObject, (err) => {
+        req.login(userObject, async (err) => {
             if (err) return res.status(500).json({ type: "ERROR", message: err.message })
-            return res.status(200).json({ type: 'SUCCESS', message: "You have been successfully logged in" })
+            return res.status(200).json({ type: 'SUCCESS', message: "You have been successfully logged in", cookies: req.session?.cookie })
         })
     } catch (error) {
         return res.status(500).json({ type: "ERROR", message: error.message })

@@ -1,0 +1,56 @@
+{
+    "title": "asdd",
+    "description": "asd",
+    "startDate": "2023-06-13T15:15",
+    "endDate": "2023-06-14T15:15",
+    "problems": [
+        {
+            "title": "asd",
+            "marks": "4",
+            "input_variables": [
+                {
+                    "name": "asd",
+                    "type": "string"
+                }
+            ],
+            "description": "asd",
+            "output_type": "string",
+            "test_cases": [
+                {
+                    "input": [
+                        {
+                            "name": "asd",
+                            "value": "asd"
+                        }
+                    ],
+                    "output": "zxv",
+                    "explanation": "zxc"
+                }
+            ]
+        },
+        {
+            "title": "zxvb",
+            "input_variables": [
+                {
+                    "name": "asd",
+                    "type": "number"
+                }
+            ],
+            "description": "zxb",
+            "output_type": "number",
+            "test_cases": [
+                {
+                    "input": [
+                        {
+                            "name": "asd",
+                            "value": "12"
+                        }
+                    ],
+                    "output": "2",
+                    "explanation": "asd"
+                }
+            ],
+            "marks": "4"
+        }
+    ]
+}

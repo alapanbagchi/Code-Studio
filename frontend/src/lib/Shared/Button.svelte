@@ -1,8 +1,8 @@
 <script lang="ts">
-	export let variant: 'primary' | 'secondary' | 'icon' | 'btngroup' = 'primary';
+	export let variant: 'primary' | 'secondary' | 'icon' | 'btngroup' | 'error' | 'ghost' = 'primary';
 	export let disabled: boolean = false;
 	export let type: 'button' | 'submit' | 'reset' = 'button';
-	export let onClick: () => void = () => {};
+	export let onClick: any = () => {};
 	export let isSubmitting: boolean = false;
 </script>
 
@@ -28,7 +28,7 @@
 				/>
 				<path
 					id="section"
-					fill="#000000"
+					fill="#FFFFFF"
 					d="M24,0 C37.254834,0 48,10.745166 48,24 L44,24 C44,12.954305 35.045695,4 24,4 L24,0 Z"
 				/>
 			</g>
@@ -76,10 +76,21 @@
 	.submitting .slot{
 		opacity: 0;
 	}
+	.ghost{
+		border: 1px solid transparent;
+		background-color: transparent;
+		color: var(--button-primary-text);
+	}
+	.ghost:hover{
+		background-color: var(--button-primary-hover);
+		color: var(--button-primary-text-hover);
+		border: 1px solid var(--button-primary-border-hover);
+		transition: all 0.3s ease;
+	}
 	.secondary {
 		background-color: var(--button-secondary);
 		color: var(--button-secondary-text);
-		border: 1px solid var(--button-secondary-border);
+		border: var(--button-secondary-border);
 	}
 
 	.secondary:hover {
@@ -119,6 +130,11 @@
 	}
 	.btngroup {
 		border: 1px solid var(--btngroup-border);
+	}
+	.error {
+		color: var(--button-error-text);
+		background-color: var(--button-error-background);
+		border: var(--button-error-border);
 	}
 	#loading-spinner {
 		position: absolute;

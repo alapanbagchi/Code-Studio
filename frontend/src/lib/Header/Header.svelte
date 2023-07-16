@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import Button from '$lib/Shared/Button.svelte';
 	import { user } from '$lib/stores/userStore';
+	console.log($user);
 </script>
 
 <header class="header">
@@ -22,7 +23,9 @@
 					<a href="/test">Test</a>
 				</li>
 				<li>
-					<a href="/admin">Admin</a>
+					{#if $user.isAdmin}
+						<a href="/login">Admin</a>
+					{/if}
 				</li>
 			</ul>
 			<ul class="user">
@@ -56,8 +59,6 @@
 		align-items: center;
 		margin-left: auto;
 		margin-right: auto;
-		position: sticky;
-		top: 0;
 	}
 	.nav {
 		width: 100%;
@@ -108,9 +109,9 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		font-weight: 600;
+		font-weight: 400;
 		font-size: 16px;
-		color: var(--background);
+		color: var(--text-primary);
 		border: 1px solid transparent;
 		transition: all 0.3s ease;
 	}

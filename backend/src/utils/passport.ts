@@ -19,6 +19,7 @@ passport.deserializeUser(async (user: any, done: any) => {
             username: user.username,
             email: user.email,
             isAdmin: user.isAdmin,
+            submissions: user.submissions,
         }
         done(err, userObj);
     });

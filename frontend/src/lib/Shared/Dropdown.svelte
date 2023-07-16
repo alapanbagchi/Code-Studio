@@ -1,15 +1,22 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	import { clickOutside } from '../../utils/clickOutside';
 	const dispatch = createEventDispatcher();
 	export let options: { name: string; value: string }[];
-	let current = options[0];
+	export let name: string = '';
+	export let updateField: any;
+	export let validateField: any;
+	export let value: any = options[0];
+	let current: {name: string, value: string} = value;
 	let showDropdown = false;
 	let maxWidth = 0;
+	$: console.log(current);
 	export let label: string = '';
 	export let required: boolean = false;
 	const handleClick = (option: { name: string; value: string }) => {
 		current = option;
-		dispatch('change', current);
+		updateField(name, option.value);
+		validateField(name);
 	};
 	options.forEach((option: any) => {
 		const width = option.name.length * 8;
@@ -24,6 +31,7 @@
 	on:keydown={() => (options.length > 1 ? (showDropdown = !showDropdown) : undefined)}
 	class="container {options.length > 1 ? '' : 'disabled'}"
 	style:min-width={options.length > 1 ? maxWidth + 50 + 'px' : 'unset'}
+	use:clickOutside on:click_outside={()=>showDropdown=false}
 >
 	{#if label}
 		<div class="label">
@@ -36,7 +44,7 @@
 	<div class="current">
 		<p>{current.name}</p>
 		{#if options.length > 1}
-			<span class="material-symbols-outlined dropdown_icon"> expand_more </span>
+			<span class="material-symbols-rounded dropdown_icon {showDropdown ? 'reverse' : ''}"> expand_more </span>
 		{/if}
 	</div>
 	{#if showDropdown}
@@ -66,6 +74,9 @@
 		opacity: 0.8;
 		cursor: not-allowed;
 	}
+	.reverse{
+		transform: rotate(180deg);
+	}
 	.current {
 		cursor: pointer;
 		padding: 10px 16px;
@@ -73,10 +84,13 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		border: var(--input-border);
 		background-color: var(--input-background);
 	}
 	.dropdown_icon {
 		font-size: 1.2rem;
+		transform: rotate(0deg);
+		transition: transform 0.2s ease-in-out;
 	}
 	.dropdown {
 		padding: 10px;

@@ -27,7 +27,7 @@
 		}),
 		onSubmit: async (values) => {
 			try {
-				await API.post('/user/login', {
+				const res = await API.post('/user/login', {
 					email: values.email,
 					password: values.password
 				});

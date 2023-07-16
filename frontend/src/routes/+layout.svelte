@@ -29,7 +29,7 @@
 
 <div class="headercontainer">
 	<div
-		class="headerWrapper {$page.url.pathname.includes('practice') && $page.params.id
+		class="headerWrapper {($page.url.pathname.includes('practice') && !$page.url.pathname.includes('admin')) && $page.params.id
 			? 'fullwidth'
 			: ''}"
 	>
@@ -43,6 +43,10 @@
 	.headercontainer {
 		width: 100%;
 		border-bottom: var(--border);
+		position: sticky;
+		top: 0;
+		backdrop-filter: blur(5px);
+		z-index: 9999;
 	}
 	.headerWrapper {
 		max-width: 1670px;

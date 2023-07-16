@@ -76,8 +76,8 @@
 		z-index: 99999999999999;
 		bottom: 20px;
 		right: 50px;
-		background-color: var(--notification_background);
-		border: var(--notification_border);
+		background-color: var(--surface);
+		border: var(--border);
 		border-radius: 7px;
 	}
 	.container {
@@ -137,7 +137,7 @@
 		line-height: 24px;
 		font-weight: 500;
 		opacity: 0.8;
-		color: #1c1c1c;
+		color: var(--text-secondary);
 		display: flex;
 		margin-top: 5px;
 	}

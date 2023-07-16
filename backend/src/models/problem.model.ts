@@ -1,61 +1,84 @@
 import { Schema, model, Document } from 'mongoose';
 
-const UserSchema = new Schema({
+export const ProblemSchema = new Schema({
+    _id: {
+        type: String,
+        required: true,
+    },
     title: {
         type: String,
-        required: true
+        required: true,
     },
     description: {
-        type: String,
+        type: String
     },
     output_type: {
         type: String,
-        required: true
+        required: true,
     },
-    testCases: [{
-        type: [{
-            input: [{
+    test_cases: [{
+        input: [{
+            type: {
                 type: String,
-                variableName: String,
-                value: String
-            }],
-            output: {
-                type: String,
-                value: String
             },
-            explanation: String
+            name: {
+                type: String,
+            },
+            value: {
+                type: String,
+            }
         }],
-        required: true
+        output: {
+            type: String,
+            required: true,
+        },
+        explanation: {
+            type: String
+        }
     }],
-    difficulty: {
-        type: String,
-        required: true,
-        enum: ["EASY", "MEDIUM", "HARD"]
+    difficulty: String,
+    tags: [String],
+    input_variables: [{
+        type: {
+            type: String,
+        },
+        name: {
+            type: String,
+        }
+    }],
+    totalSubmissions: {
+        type: Number,
+        default: 0
     },
-    tags: [{
-        type: String,
-        required: true,
-    }],
-}, { timestamps: true })
+    totalPassed: {
+        type: Number,
+        default: 0
+    }
+})
 
 export interface IProblem extends Document {
     title: string,
     description: string,
     output_type: string,
-    testCases: {
-        input: {
+    test_cases: [{
+        input: [{
             type: string,
-            variableName: string,
+            name: string,
             value: string
-        }[],
+        }],
         output: {
-            type: string,
             value: string
         },
         explanation: string
-    }[],
-    difficulty: "EASY" | "MEDIUM" | "HARD",
-    tags: string[],
+    }],
+    difficulty: string,
+    tags: [string],
+    input_variables: [{
+        type: string,
+        name: string
+    }],
+    totalSubmissions: number,
+    totalPassed: number
 }
 
-export default model<IProblem>('User', UserSchema)
+export default model<IProblem>('Problem', ProblemSchema)

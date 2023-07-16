@@ -35,19 +35,24 @@
 		appearance: none; /* remove default styling */
 		border-radius: 3px; /* add rounded corners */
 		cursor: pointer;
+		transition: all 0.2s ease-in-out;
 	}
 	
 	input:checked::before {
 		content: '\2713'; /* add checkmark symbol */
-		color: var(--background); /* set color to white */
+		color: var(--text-primary); /* set color to white */
 		font-size: 14px;
+		height: 100%;
 		text-align: center;
 		line-height: 16px;
 		font-weight: 600;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background-color: var(--primary);
 	}
-	
+	input:checked {
+		border: 1px solid var(--primary);
+		background-color: var(--primary);
+		transition: all 0.2s ease-in-out;
+	}
 </style>

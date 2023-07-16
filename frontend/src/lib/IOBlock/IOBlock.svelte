@@ -1,6 +1,8 @@
 <script lang="ts">
 	export let index: number;
 	export let testCase: TestCase;
+
+	console.log(testCase);
 </script>
 
 <div class="container">
@@ -9,10 +11,10 @@
 		<div class="input">
 			<p class="title"><strong>Input: </strong></p>
 			{#each testCase.input as input, index}
-				<p>{input.variableName} = <span>{input.value}</span> {testCase.input.length-2 === index ? ', ' : ''}</p>
+				<p>{input.name} = <span>{input.value}</span> {testCase.input.length-2 === index ? ', ' : ''}</p>
 			{/each}
 		</div>
-		<p><strong>Output:</strong> <span>{testCase.output.value}</span></p>
+		<p><strong>Output:</strong> <span>{testCase.output}</span></p>
         {#if testCase.explanation}
             <p><strong>Explanation:</strong> {testCase.explanation}</p>
         {/if}

@@ -8,8 +8,9 @@
 	export let label: string = '';
 	export let maxlength: number = -1;
 	export let hideErrorText: boolean = false;
-	export let onFocus: (e: Event) => void = () => {};
+	export let onFocus: any = () => {};
 	export let onChange: (e: Event) => void = () => {};
+	export let onInput: (e: Event) => void = () => {};
 	export let onBlur: (e: Event) => void = () => {};
 	export let disabled: boolean = false;
 	let touched: boolean = false;
@@ -47,7 +48,7 @@
 			use:typeAction
 			on:focus={() => {
 				fieldActive = true;
-				return onFocus;
+				return onFocus();
 			}}
 			on:blur={() => {
 				fieldActive = false;
@@ -61,7 +62,10 @@
 				return (hovered = false);
 			}}
 			on:change={onChange}
-			on:input={touched || error ? onChange : undefined}
+			on:input={(e)=>{
+				touched || error ? onChange : undefined
+				onInput(e)
+			}}
 			bind:value
 			{disabled}
 			{maxlength}
@@ -100,7 +104,7 @@
 	.inputfield {
 		display: flex;
 		padding: 10px 16px;
-		border: 1px solid transparent;
+		border: var(--input-border);
 		border-radius: 7px;
 		align-items: center;
 		justify-content: center;
@@ -119,7 +123,6 @@
     }
     .focused.inputerror{
         border: 1px solid var(--input-error);
-        box-shadow: var(--input-error-boxShadow);
     }
 	input {
 		flex: 1;
@@ -131,11 +134,10 @@
 		color: var(--text-primary);
 	}
 	.hovered {
-		border: 1px solid var(--primary);
+		border: 2px solid var(--primary);
 	}
 	.focused {
-		border: 1px solid var(--primary);
-		box-shadow: var(--primary-shadow);
+		border: 2px solid var(--primary);
 	}
 	.error {
 		color: var(--error);

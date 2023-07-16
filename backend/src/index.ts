@@ -11,7 +11,6 @@ import https from 'https'
 import dotenv from 'dotenv'
 require('./utils/passport')
 
-
 dotenv.config()
 const RedisStore = require('connect-redis')(session)
 const app = express()
@@ -23,7 +22,6 @@ app.use(cors({
     origin: process.env.CLIENT_URL.split(','),
     credentials: true
 }))
-
 // Redis client setup
 const redisClient = createClient({
     legacyMode: true,
@@ -32,9 +30,8 @@ const redisClient = createClient({
 app.use(cookieParser())
 if (!process.env.SESSION_SECRET) throw new Error('No session secret provided')
 app.use(session({
-    proxy: true,
     secret: process.env.SESSION_SECRET,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 30, secure: true, sameSite: 'none' },
     resave: false,
     store: new RedisStore({
@@ -49,7 +46,8 @@ app.get('/', (req, res) => {
 
 
 app.use('/user', require('./routes/user.router'))
-app.use('/rce', require('./routes/rce.router'))
+app.use('/problems', require('./routes/problem.router'))
+app.use('/test', require('./routes/test.router'))
 
 
 const startServer = async () => {

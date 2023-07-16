@@ -2,8 +2,42 @@
 	import { goto } from '$app/navigation';
 	import Checkbox from '$lib/Shared/Checkbox.svelte';
 	import Input from '$lib/Shared/Input.svelte';
+	import { user } from '$lib/stores/userStore';
+	import type { PageData } from './$types';
+	export let data: PageData;
+	const problems = data.problems;
 	let searchTerm = '';
-
+	let categoryFilters: string[] = [];
+	let difficultyFilters: string[] = [];
+	let statusFilters: string[] = [];
+	let filteredProblems: any = [];
+	console.log(problems);
+	$: if (searchTerm || categoryFilters || difficultyFilters || statusFilters) {
+		console.log(categoryFilters);
+		filteredProblems = problems?.filter((problem: any) => {
+			if (searchTerm && !problem.title.toLowerCase().includes(searchTerm.toLowerCase())) {
+				return false;
+			}
+			if (
+				categoryFilters.length &&
+				!categoryFilters.some((category) =>
+					problem.tags.map((tag: string) => tag.toLowerCase()).includes(category)
+				)
+			) {
+				return false;
+			}
+			if (
+				difficultyFilters.length &&
+				!difficultyFilters.includes(problem.difficulty.toLowerCase())
+			) {
+				return false;
+			}
+			if (statusFilters.length && !statusFilters.includes(problem.status)) {
+				return false;
+			}
+			return true;
+		});
+	}
 	let allTopics = [
 		'Strings',
 		'Array',
@@ -14,6 +48,8 @@
 		'Greedy Algorithm',
 		'Dynamic Programming'
 	];
+
+	$: console.log(categoryFilters);
 </script>
 
 <div class="container">
@@ -23,7 +59,7 @@
 				type="text"
 				placeholder="Search"
 				value={searchTerm}
-				on:input={(e) => (searchTerm = e.target.value)}>Search</Input
+				onInput={(e) => (searchTerm = e.target?.value)}>Search</Input
 			>
 		</div>
 		<div class="options">
@@ -31,22 +67,39 @@
 				<p class="filterheader">Filter by Categories</p>
 				{#each allTopics as topic}
 					<div class="opacityreduce">
-						<Checkbox text={topic} name={topic} />
+						<Checkbox
+							onChange={() => {
+								if (categoryFilters.includes(topic.toLowerCase())) {
+									categoryFilters = categoryFilters.filter((item) => item !== topic.toLowerCase());
+								} else {
+									categoryFilters = [...categoryFilters, topic.toLowerCase()];
+								}
+							}}
+							text={topic}
+							name={topic}
+						/>
 					</div>
 				{/each}
 			</div>
 			<div class="block">
 				<p class="filterheader">Filter by Difficulty</p>
-				<div class="opacityreduce">
-					<Checkbox text="Easy" name="easy" />
-				</div>
-				<div class="opacityreduce">
-					<Checkbox text="Medium" name="medium" />
-				</div>
-
-				<div class="opacityreduce">
-					<Checkbox text="Hard" name="hard" />
-				</div>
+				{#each ['Easy', 'Medium', 'Hard'] as difficulty}
+					<div class="opacityreduce">
+						<Checkbox
+							onChange={() => {
+								if (difficultyFilters.includes(difficulty.toLowerCase())) {
+									difficultyFilters = difficultyFilters.filter(
+										(item) => item !== difficulty.toLowerCase()
+									);
+								} else {
+									difficultyFilters = [...difficultyFilters, difficulty.toLowerCase()];
+								}
+							}}
+							text={difficulty}
+							name={difficulty.toLowerCase()}
+						/>
+					</div>
+				{/each}
 			</div>
 			<div class="block">
 				<p class="filterheader">Filter by Status</p>
@@ -76,13 +129,28 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each Array(20) as _}
-					<tr on:click={()=>goto('practice/123')}>
-						<td class="status"><img width="30px" src="/icons/solved.svg" alt="" /></td>
-						<td class="title">Two Sum</td>
-						<td class="tags">Array, Hash Table</td>
-						<td class="difficulty">Easy</td>
-						<td class="submissions">100%</td>
+				{#each filteredProblems as problem}
+					<tr on:click={() => goto(`practice/${problem._id}`)}>
+						<td class="status">
+							{#if $user.submissions.find((submission) => submission._id === problem._id)}
+								{#if $user.submissions.find((submission) => submission._id === problem._id).solved}
+									<img width="30px" src="/icons/solved.svg" alt="" title="Solved" />
+								{:else}
+									<img width="30px" src="/icons/attempted.svg" alt="" title="Attempted" />
+								{/if}
+							{/if}
+						</td>
+						<td class="title">{problem.title}</td>
+						<td class="tags">{problem.tags.join(',')}</td>
+						<td class="difficulty"
+							>{problem.difficulty.substring(0, 1) +
+								problem.difficulty.substring(1).toLowerCase()}</td
+						>
+						<td class="submissions">
+							{
+								problem.totalPassed / problem.totalSubmissions * 100
+							}%
+						</td>
 					</tr>
 				{/each}
 			</tbody>
@@ -188,9 +256,9 @@
 		color: var(--text-secondary);
 		align-items: center;
 	}
-    tbody tr{
-        cursor: pointer;
-    }
+	tbody tr {
+		cursor: pointer;
+	}
 	tbody tr:nth-child(2n) {
 		background-color: var(--surface);
 	}

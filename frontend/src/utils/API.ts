@@ -33,7 +33,7 @@ const apiRequest = (method: string, url: any, request: any = {}) => {
 const get = (url: any) => apiRequest("get", url);
 
 // function to execute the http delete request
-const deleteRequest = (url: any, request: any) => apiRequest("delete", url, request);
+const deleteRequest = (url: any) => apiRequest("delete", url);
 
 // function to execute the http post request
 const post = (url: any, request: any) => apiRequest("post", url, request);
