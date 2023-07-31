@@ -101,7 +101,7 @@
 							type: yup.string().required('Type is required')
 						})
 					),
-					marks: yup.number().required('Marks is required'),
+					marks: yup.number().required('Marks is required').min(1, 'Marks has to be greater than 0'),
 					description: yup.string().required('Description is required'),
 					output_type: yup.string().required('Output Type is required'),
 					test_cases: yup.array().of(

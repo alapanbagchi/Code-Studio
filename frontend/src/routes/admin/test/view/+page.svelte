@@ -6,6 +6,7 @@
 	import Ide from '$lib/IDE/IDE.svelte';
 	import Button from '$lib/Shared/Button.svelte';
 	import Input from '$lib/Shared/Input.svelte';
+	import MarkTest from '$lib/Forms/MarkTest.svelte';
 
 	let tests: any[] = [];
 	let students: any[] = [];
@@ -26,10 +27,9 @@
 	const fetchStudentData = async (testid: number, studentid: number) => {
 		const res = await API.get(`/test/${testid}/student/${studentid}`);
 		studentSubmissions = [...studentSubmissions, ...res.data];
-		console.log(
-			studentSubmissions.find((submission) => submission.problem_id === 'SUM8238468596787489')
-		);
 	};
+
+
 </script>
 
 <div class="wrapper">
@@ -99,19 +99,7 @@
 												)?.code}
 											/>
 										</div>
-										<Input
-											label="Remarks"
-											type="text"
-											placeholder="Enter remarks"
-											onChange={(e) => {
-												console.log(e.target.value);
-											}}
-											value=""
-										/>
-										<div class="btngroup">
-											<Button variant="error">Mark as incorrect</Button>
-											<Button variant="primary">Mark as correct</Button>
-										</div>
+										<MarkTest problem={problem} test={test} />
 									</div>
 								{/each}
 							{/if}

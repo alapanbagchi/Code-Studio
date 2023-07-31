@@ -6,31 +6,32 @@
 	import { page } from '$app/stores';
 
 	let test: any = {};
-    let time = 0;
-    let timeLeft = 0;
-    let formattedTime = '';
-	onMount(()=>{
-		const canGiveTest = new Date(test.startDate).getTime() > new Date().getTime() ||
-							new Date(test.endDate).getTime() < new Date().getTime()
-		if(!canGiveTest) goto(`/test/`)
-	})
+	let time = 0;
+	let timeLeft = 0;
+	let formattedTime = '';
+
 	onMount(async () => {
 		await API.get(`/test/${$page.params.id}`).then((res) => {
 			test = res.data;
 		});
-        time = new Date(test.endDate).getTime() - new Date().getTime();
-        timeLeft = time;
-        setInterval(() => {
-            timeLeft -= 1000;
-            if (timeLeft < 0) {
-                formattedTime = '0:0:0';
-                return;
-            }
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-            formattedTime = `${hours}:${minutes}:${seconds}`;
-        }, 1000);
+		time = new Date(test.endDate).getTime() - new Date().getTime();
+		timeLeft = time;
+		const canGiveTest =
+			new Date(test.startDate).getTime() < new Date().getTime() ||
+			new Date(test.endDate).getTime() > new Date().getTime();
+		console.log(new Date(test.startDate).getTime(), new Date().getTime());
+		if (!canGiveTest) goto(`/test/`);
+		setInterval(() => {
+			timeLeft -= 1000;
+			if (timeLeft < 0) {
+				formattedTime = '0:0:0';
+				return;
+			}
+			const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+			const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+			formattedTime = `${hours}:${minutes}:${seconds}`;
+		}, 1000);
 	});
 </script>
 
@@ -42,10 +43,10 @@
 					<h1 class="title">{test.title}</h1>
 					<p class="examiner">{test.examiner}</p>
 				</div>
-                <div class="clock">
-                    <p>Time left</p>
-                    <p>{formattedTime}</p>
-                </div>
+				<div class="clock">
+					<p>Time left</p>
+					<p>{formattedTime}</p>
+				</div>
 			</div>
 			<thead>
 				<tr>
@@ -59,13 +60,13 @@
 			</thead>
 			<tbody>
 				{#each test.problems as problem}
-					<tr on:click={() => goto(`/test/${$page.params.id}/${problem._id}`)}>
+				<a href="/test/{$page.params.id}/{problem._id}">
+					<tr>
 						<td class="status">
 							<span class="material-symbols-rounded">
-								{
-									test.users.find((u)=>u.id === $user._id)?.problem_id.includes(problem._id) ?
-									'Check' : ''
-								}
+								{test.users.find((u) => u.id === $user._id)?.problem_id.includes(problem._id)
+									? 'Check'
+									: ''}
 							</span>
 						</td>
 						<td class="title">{problem.title}</td>
@@ -78,6 +79,7 @@
 						</td>
 						<td class="examiner">{test.examiner}</td>
 					</tr>
+				</a>
 				{/each}
 			</tbody>
 		</table>
@@ -85,23 +87,23 @@
 </div>
 
 <style>
-    .testdetails{
-        display: flex;
-        justify-content: space-between;
-        margin: 40px 0;
-    }
-    .examiner{
-        font-size: 14px;
-        font-weight: 400;
-        color: var(--text-secondary);
-        margin-top: 10px;
-    }
-    .details .title{
-        font-size: 24px;
-        font-weight: 500;
+	.testdetails {
+		display: flex;
+		justify-content: space-between;
+		margin: 40px 0;
+	}
+	.examiner {
+		font-size: 14px;
+		font-weight: 400;
+		color: var(--text-secondary);
+		margin-top: 10px;
+	}
+	.details .title {
+		font-size: 24px;
+		font-weight: 500;
 		width: 100%;
-        color: var(--text-primary);
-    }
+		color: var(--text-primary);
+	}
 	.wrapper {
 		display: flex;
 		flex-wrap: wrap;

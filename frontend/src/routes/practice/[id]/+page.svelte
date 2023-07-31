@@ -183,6 +183,9 @@
 </Splitpanes>
 
 <style>
+	.consolecontent{
+		height: 100%;
+	}
 	:global(.splitpanes) {
 		display: flex;
 		width: 100%;

@@ -42,9 +42,14 @@
 		}),
 		onSubmit: async (values) => {
 			try {
-				const res = await API.post('/user/verify/send', {
-					email: values.email
+				const res = await API.post('/user/register', {
+					fullName: values.fullName,
+					username: values.username,
+					email: values.email,
+					password: values.password,
+					confirmPassword: values.confirmPassword
 				});
+				const sendOTPRes = await API.post('/user/verify/send', { email: values.email });
 				$userRegistration = {
 					...$userRegistration,
 					...values

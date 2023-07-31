@@ -24,7 +24,7 @@
 				</li>
 				<li>
 					{#if $user.isAdmin}
-						<a href="/login">Admin</a>
+						<a href="/admin">Admin</a>
 					{/if}
 				</li>
 			</ul>

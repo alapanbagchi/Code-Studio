@@ -63,7 +63,8 @@
                     }
 
 				})),
-				returnType: problem.output_type
+				returnType: problem.output_type,
+				marks: problem.marks
 			});
 			codeExecutionOutput = result.data;
 			isSubmitting = false;

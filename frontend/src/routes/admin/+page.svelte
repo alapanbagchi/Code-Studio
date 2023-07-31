@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import API from '../../../../utils/API';
-	import { goto } from '$app/navigation';
 	import { user } from '$lib/stores/userStore';
+	import API from '../../utils/API';
+	import { page } from '$app/stores';
 
 	let tests: any[] = [];
 	let students: any[] = [];
@@ -25,187 +25,87 @@
     }
 </script>
 
-<div class="wrapper">
-	<table>
-		<thead>
-			<tr>
-				<th class="status">Status</th>
-				<th class="title">Title</th>
-				<th class="start">Start Time</th>
-				<th class="end">End Time</th>
-				<th class="examiner">Examiner</th>
-			</tr>
-		</thead>
-		<tbody>
-			{#each tests as test, index}
-				<tr
-					on:click={async () => {
-						await fetchAllStudents(test._id);
-						showDropdown != 1 ? (showDropdown = index) : (showDropdown = -1);
-					}}
-				>
-					<td class="status">
-						<span class="material-symbols-rounded"
-							>{new Date(test.startDate).getTime() > new Date().getTime() ||
-							new Date(test.endDate).getTime() < new Date().getTime()
-								? 'Check'
-								: 'Pending'}</span
-						>
-					</td>
-					<td class="title">{test.title}</td>
-					<td class="start">
-						{new Date(test.startDate).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}
-					</td>
-					<td class="end">
-						{new Date(test.endDate).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}
-					</td>
-					<td class="examiner">{test.examiner}</td>
-				</tr>
-				{#if showDropdown === index}
-					<div class="dropdown">
-						{#each students as student}
-							<div class="student">
-								<div class="pfp">
-									{$user.fullName[0]}
-								</div>
-								<div class="details">
-									<div class="name">{student.name}</div>
-									<div class="username">{student.username}</div>
-								</div>
-                                <div class="testDetails">
-                                    <p>{student.passed} / {student.passed + student.failed} passed </p>
-                                </div>
-							</div>
-						{/each}
-					</div>
-				{/if}
-			{/each}
-		</tbody>
-	</table>
+<div class="header">
+	<ul>
+		<li>
+			<a
+				class={$page.url.pathname === '/admin/practice/add' ? 'active' : ''}
+				href="{$page.url.origin}/admin/practice/add"
+			>
+				<p class="title">Add Practice Problems</p>
+				<p class="description">Add a practice problem to Code Studio for users to solve</p>
+			</a>
+		</li>
+		<li>
+			<a href="{$page.url.origin}/admin/practice/edit">
+				<p class="title">Edit Practice Problems</p>
+				<p class="description">
+					Found a mistake in a practice problem you added? Edit it to fix the issue
+				</p></a
+			>
+		</li>
+		<li>
+			<a href="{$page.url.origin}/admin/test/add">
+				<p class="title">Start Test</p>
+				<p class="description">
+					Start a test for students to take. You can also set a time limit for the test
+				</p>
+			</a>
+		</li>
+		<li>
+			<a href="{$page.url.origin}/admin/test/view">
+				<p class="title">View Tests</p>
+				<p class="description">
+					View all the tests you have created and see the answers of each student
+				</p>
+			</a>
+		</li>
+	</ul>
 </div>
 
 <style>
-    .student {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        padding: 5px 20px;
-    }
-    .testDetails{
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        padding: 5px 20px;
-        margin-left: auto;
-    }
-    .student .pfp{
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: var(--primary);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        font-weight: 500;
-        color: var(--text-secondary);
-    }
-    .dropdown{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding: 10px 0;
-        background-color: var(--surface);
-        border: var(--border)
-    }
-    .username{
-        font-size: 14px;
-        font-weight: 400;
-        color: var(--text-secondary);
-    }
-	.wrapper {
+	.header {
 		display: flex;
-		flex-wrap: wrap;
 		justify-content: center;
-		max-width: 1610px;
-		margin: 0 auto;
-		position: sticky;
-		top: 60px;
-		max-height: 12000000vh;
-	}
-	table {
+		align-items: center;
 		width: 100%;
-		border-collapse: collapse;
+		height: calc(100vh - 60px);
+		padding: 0 30px;
 	}
-
-	th {
-		font-size: 14px;
-		text-align: left;
-		font-weight: 400;
-		color: var(--text-secondary);
-		background-color: var(--surface);
-	}
-	.status {
-		width: 52px;
+	.active {
+		color: var(--primary);
+		font-weight: 500;
 	}
 	.title {
-		width: calc(100% - 52px - 40ch - 20ch - 20ch);
+		font-size: 1.4rem;
 	}
-	.tags {
-		width: 40ch;
+	.description {
+		font-size: 1rem;
+		color: var(--text-secondary);
+		margin-top: 20px;
 	}
-	/* Hide scrollbar */
-	::-webkit-scrollbar {
-		display: none;
-	}
-	.start {
-		width: 20ch;
-	}
-	.end {
-		width: 20ch;
-	}
-	thead,
-	tbody {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-	}
-	thead {
-		background-color: var(--surface);
-		position: sticky;
-		top: 0;
-	}
-	th {
-		display: flex;
+	.header ul {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		justify-content: center;
 		align-items: center;
-	}
-	tbody {
-		height: 100%;
-		min-height: 100vh;
-	}
-	tr {
 		width: 100%;
-		height: 50px;
-		display: flex;
+		list-style: none;
 		gap: 20px;
+		max-width: 1610px;
+	}
+	li {
+		width: 100%;
+		border: var(--border);
 		font-size: 14px;
 		font-weight: 400;
-		padding: 10px 20px;
-		color: var(--text-secondary);
-	}
-	tr td {
-		font-size: 14px;
-		text-align: left;
-		display: flex;
-		font-weight: 400;
-		color: var(--text-secondary);
-		align-items: center;
-	}
-	tbody tr {
+		padding: 40px 60px;
+		border-radius: 10px;
 		cursor: pointer;
+		color: var(--text-secondary);
+		transition: all 0.2s ease-in-out;
 	}
-	tbody tr:nth-child(2n) {
-		background-color: var(--surface);
+	li:hover {
+		color: var(--text-primary);
 	}
 </style>

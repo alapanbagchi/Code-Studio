@@ -45,43 +45,62 @@
 			/>
 		{/if}
 	</div>
-	<div class="io">
-		<div class="input">
+	{#if !currentOutput?.exception}
+		<div class="io">
+			<div class="input">
+				{#if output}
+					{#each currentOutput.input as input, index}
+						{#if currentOutput.passed}
+							<div class="status">
+								<p style:color="var(--success)">Test Case Passed</p>
+								<p style:opacity="0.8">
+									Execution Time: {Math.round(currentOutput.time * 1000 * 100) / 100}ms
+								</p>
+							</div>
+						{:else}
+							<p style:color="var(--error)">Test Case Failed</p>
+						{/if}
+						<div class="testbox">
+							<p class="label">{input.variableName}</p>
+							<p class="value">{input.value}</p>
+						</div>
+					{/each}
+				{:else}
+					{#each currentTestCase.input as input, index}
+						<div class="testbox">
+							<p class="label">{input.name}</p>
+							<p class="value">{input.value}</p>
+						</div>
+					{/each}
+				{/if}
+			</div>
 			{#if output}
-				{#each currentOutput.input as input, index}
-					<div class="testbox">
-						<p class="label">{input.variableName}</p>
-						<p class="value">{input.value}</p>
-					</div>
-				{/each}
-			{:else}
-				{#each currentTestCase.input as input, index}
-					<div class="testbox">
-						<p class="label">{input.name}</p>
-						<p class="value">{input.value}</p>
-					</div>
-				{/each}
+				<div class="output {currentOutput.passed ? 'success' : 'error'}">
+					<p class="label">Output</p>
+					<p class="value">{output ? currentOutput.output : currentTestCase.output}</p>
+				</div>
+				<div class="expectedResults">
+					<p class="label">Expected Results</p>
+					<p class="value">{currentOutput.expectedOutput}</p>
+				</div>
 			{/if}
 		</div>
-		{#if output}
-			<div class="output {currentOutput.passed ? 'success' : 'error'}">
-				<p class="label">Output</p>
-				<p class="value">{output ? currentOutput.output : currentTestCase.output}</p>
-			</div>
-			<div class="expectedResults">
-				<p class="label">Expected Results</p>
-				<p class="value">{currentOutput.expectedOutput}</p>
-			</div>
-		{/if}
-	</div>
+	{:else}
+		<div style="display:flex; flex-direction:column; gap:10px; margin: 20px;">
+			<p style="color: var(--error); font-size:1.5rem; font-weight:600">
+				{currentOutput.exception.type}
+			</p>
+			<p style="">{currentOutput.exception.message}</p>
+			<p>{currentOutput.exception.traceback}</p>
+		</div>
+	{/if}
 </div>
 
 <style>
-	.indicator {
-		width: 10px;
-		height: 10px;
-		border-radius: 50%;
-		background-color: var(--success);
+	.status {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
 	}
 	.tabs {
 		display: flex;
@@ -94,7 +113,7 @@
 		flex-direction: column;
 		margin-top: 10px;
 		padding: 10px 20px;
-		height: 294px;
+		height: 100%;
 		overflow: auto;
 	}
 	.io::-webkit-scrollbar {
