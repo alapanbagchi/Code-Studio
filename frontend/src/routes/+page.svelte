@@ -12,10 +12,19 @@
 	</p>
 	<div class="btns">
 		{#if $user.isLoggedIn}
-			<Button variant="secondary">Give Tests</Button>
-			<Button>Solve Practice Problems</Button>
+			<Button>
+				<a href="/practice">Solve Practice Problems</a>
+			</Button>
+			<Button variant="secondary">
+				<a href="/test">Give Tests</a>
+			</Button>
 		{:else}
-			<Button>Login</Button>
+			<Button>
+				<a href="/register">Register</a>
+			</Button>
+			<Button variant="secondary">
+				<a href="/login">Login</a>
+			</Button>
 		{/if}
 	</div>
 	<div class="images">

@@ -42,7 +42,8 @@ export const testSubmissions = async (req: Request, res: Response) => {
                 passed: passed,
                 errorName: passed && result.find((item: any)=> item.exception) ? result.find((item: any)=> item.exception).exception.type : null,
                 language: 'python',
-                code: req.body.code
+                code: req.body.code,
+                marks: req.body.marks
             });
         }
         return res.status(200).send({ message: "Success", data: result });

@@ -32,7 +32,6 @@
 		});
 	});
 	let currentTestResult = -1;
-	$: console.log(testResults);
 </script>
 
 <div class="wrapper">
@@ -110,7 +109,7 @@
 					<div class="results">
 						<p class="yourmarks">
 							Your Marks: {testResults
-								.find((t) => t.testId)
+								.find((t) => t.testId === currentTestResult)
 								.results.reduce((acc, result) => {
 									if (result.correct) {
 										const problem = test.problems.find((p) => p._id === result.problem_id);
@@ -119,7 +118,7 @@
 									return acc;
 								}, 0)}
 						</p>
-						{#each testResults.find((t) => t.testId).results as result}
+						{#each testResults.find((t) => t.testId === currentTestResult).results as result}
 							<div style="display:flex;justify-content:space-between;align-items:center">
 								<p style="width:100%;">{test.problems.find((p) => p._id === result.problem_id).title}</p>
 								<p class={result.correct ? 'correct' : 'incorrect'}>

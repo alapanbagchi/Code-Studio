@@ -53,6 +53,8 @@ app.use('/test', require('./routes/test.router'))
 const startServer = async () => {
     // > Connect to MongoDB
     try {
+        console.log('Connecting to MongoDB')
+        console.log(process.env.MONGO_URI)
         await mongoose.connect(process.env.MONGO_URI!)
         console.log('✅ | Connected to MongoDB')
     } catch (err) {

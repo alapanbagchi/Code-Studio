@@ -14,6 +14,7 @@ import { getTest } from '../controllers/tests/getTest'
 import { testSubmissions } from '../controllers/tests/testSubmit'
 import { getAllStudents } from '../controllers/tests/getAllStudents'
 import { getStudentTestSubsmission } from '../controllers/tests/getStudentData'
+import { gradeTests } from '../controllers/tests/gradeTests.controller'
 
 const router = express.Router()
 
@@ -38,5 +39,9 @@ router.get('/:testid/students', async(req, res) => {
 })
 router.get('/:testid/student/:id', async(req, res) => {
     getStudentTestSubsmission(req, res)
+})
+
+router.post('/grade', async(req,res)=>{
+    gradeTests(req,res)
 })
 module.exports = router

@@ -17,7 +17,7 @@ def fibonacci(n):
 '''
 OUTPUT = None
 EXCEPTION = None
-EXPECTED_OUTPUT = ast.literal_eval("[0, 1, 1, 2, 3]")
+EXPECTED_OUTPUT = ast.literal_eval("true")
 start = time.time()
 try:
     compiled_code = compile(code, '<string>', 'exec')

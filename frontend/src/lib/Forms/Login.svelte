@@ -49,7 +49,8 @@
 					pfp: res.data.pfp,
 					isLoggedIn: true
 				};
-				goto('../');
+				await goto('../');
+				location.reload();
 			} catch (err: any) {
 				$notification = {
 					title: 'Login Failed',

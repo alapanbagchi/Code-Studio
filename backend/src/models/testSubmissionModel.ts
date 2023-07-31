@@ -29,7 +29,16 @@ const TestSubmissionSchema = new Schema({
         type: String,
         required: true
     },
-
+    correct: {
+        type: Boolean,
+    },
+    remarks: {
+        type: String,
+    },
+    marks: {
+        type: Number,
+        required: true
+    }
 }, { timestamps: true })
 
 export interface ITestSubmission extends Document {
@@ -40,6 +49,9 @@ export interface ITestSubmission extends Document {
     errorName: string | null,
     language: string,
     code: string,
+    correct: boolean,
+    remarks: string,
+    marks: number
 }
 
 export default model<ITestSubmission>('TestSubmission', TestSubmissionSchema)

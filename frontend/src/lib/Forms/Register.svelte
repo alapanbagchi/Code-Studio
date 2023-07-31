@@ -16,11 +16,11 @@
 
 	const { form, handleChange, errors, touched, handleSubmit, isSubmitting } = createForm({
 		initialValues: {
-			fullName: 'Alapan Bagchi',
-			username: 'alapan',
-			email: 'alapanbagchi.personal@gmail.com',
-			password: 'Madv1lla1n_Dash1ng',
-			confirmPassword: 'Madv1lla1n_Dash1ng'
+			fullName: '',
+			username: '',
+			email: '',
+			password: '',
+			confirmPassword: ''
 		},
 		validationSchema: yup.object().shape({
 			fullName: yup.string().required('Full name is required'),
@@ -42,21 +42,18 @@
 		}),
 		onSubmit: async (values) => {
 			try {
-				const res = await API.post('/user/register', {
+				await API.post('/user/register', {
 					fullName: values.fullName,
 					username: values.username,
 					email: values.email,
 					password: values.password,
 					confirmPassword: values.confirmPassword
 				});
-				const sendOTPRes = await API.post('/user/verify/send', { email: values.email });
-				$userRegistration = {
-					...$userRegistration,
-					...values
+				$notification = {
+					type: 'SUCCESS',
+					title: 'Registration Successful',
+					message: "You have been successfully registered to Code Studio"
 				};
-				$userRegistration.step = 1;
-				$userRegistration.timeToWaitForNextOTP = res.time;
-				
 			} catch (err: any) {
 				$notification = {
 					type: 'ERROR',

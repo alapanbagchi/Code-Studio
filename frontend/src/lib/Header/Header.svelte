@@ -23,6 +23,9 @@
 					<a href="/test">Test</a>
 				</li>
 				<li>
+					{#if !$user.isLoggedIn}
+						<a href="/login/admin">Admin Login</a>
+					{/if}
 					{#if $user.isAdmin}
 						<a href="/admin">Admin</a>
 					{/if}

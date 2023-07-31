@@ -27,6 +27,7 @@
 	const fetchStudentData = async (testid: number, studentid: number) => {
 		const res = await API.get(`/test/${testid}/student/${studentid}`);
 		studentSubmissions = [...studentSubmissions, ...res.data];
+		console.log(studentSubmissions);
 	};
 
 
@@ -50,11 +51,12 @@
 						await fetchAllStudents(test._id);
 						showDropdown != 1 ? (showDropdown = index) : (showDropdown = -1);
 					}}
+					style:opacity={new Date(test.endDate).getTime() > new Date().getTime() ? 0.5 : 1}
+					style = "cursor: {new Date(test.endDate).getTime() > new Date().getTime() ? 'not-allowed' : 'auto' }; pointer-events: {new Date(test.endDate).getTime() > new Date().getTime() ? 'none' : 'pointer' }"
 				>
 					<td class="status">
 						<span class="material-symbols-rounded"
-							>{new Date(test.startDate).getTime() > new Date().getTime() ||
-							new Date(test.endDate).getTime() < new Date().getTime()
+							>{new Date(test.endDate).getTime() < new Date().getTime()
 								? 'Check'
 								: 'Pending'}</span
 						>
@@ -83,14 +85,15 @@
 									<div class="name">{student.name}</div>
 									<div class="username">{student.username}</div>
 								</div>
-								<div class="testDetails">
-									<p>{student.passed} / {test.problems.length} problems passed the test cases</p>
-								</div>
 							</div>
 							{#if studentSubmissions.length > 0}
 								{#each test.problems as problem}
 									<div class="studentresults">
-										<p>{problem.title}</p>
+										<p>{problem.title} - {
+											studentSubmissions.find(
+												(submission) => submission.problem_id === problem._id
+											)?.passed ? 'Passed' : 'Failed'
+										}</p>
 										<div>
 											<Ide
 												readonly={true}
@@ -99,7 +102,9 @@
 												)?.code}
 											/>
 										</div>
-										<MarkTest problem={problem} test={test} />
+										<MarkTest problem={problem} test={test} user_id={
+											studentSubmissions[0].user_id
+										} />
 									</div>
 								{/each}
 							{/if}
